@@ -1,7 +1,7 @@
 # DrMVC Config loader
 
 [![Latest Stable Version](https://poser.pugx.org/drmvc/config/v/stable)](https://packagist.org/packages/drmvc/config)
-[![Build Status](https://travis-ci.org/DrTeamRocks/pcrecruiter.svg?branch=master)](https://travis-ci.org/DrTeamRocks/pcrecruiter)
+[![Build Status](https://travis-ci.org/drmvc/config.svg?branch=master)](https://travis-ci.org/drmvc/config)
 [![Total Downloads](https://poser.pugx.org/drmvc/config/downloads)](https://packagist.org/packages/drmvc/config)
 [![License](https://poser.pugx.org/drmvc/config/license)](https://packagist.org/packages/drmvc/config)
 [![PHP 7 ready](https://php7ready.timesplinter.ch/drmvc/config/master/badge.svg)](https://travis-ci.org/drmvc/config)
