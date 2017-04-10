@@ -60,7 +60,7 @@ Defined variables available from any plaice of your code.
 
 * Download the latest [DrMVC Config](https://github.com/drmvc/config/releases) package
 * Extract the archive
-* Initiate the styles and scripts, just run `composer update` from directory with sources
+* Initiate the scripts, just run `composer update` from directory with sources
 
 ## About PHP Unit Tests
 
