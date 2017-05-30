@@ -1,6 +1,6 @@
 {
   "name": "drmvc/config",
-  "type": "project",
+  "type": "library",
   "description": "DrMVC config loader",
   "homepage": "https://drmvc.com/",
   "license": "MIT",
