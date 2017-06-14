@@ -15,13 +15,28 @@ First what you need know: **application directory path** should be already defin
     define('APPPATH', __DIR__ . '/../app/');
 
 Your **APPPATH** should contain the **Configs** folder, into **Configs**
-folder you need put your configuration file with filename like **some_config.php** 
+folder you need put your configuration file with filename like **some_config**.php
+
+Example of directories tree:
+
+    app/
+     |-Configs/
+        |-some_config.php
+
+How to load the config file from "app/Configs" folder:
 
     \DrMVC\Core\Config::load('some_config');
-
-or
-
     $config = \DrMVC\Core\Config::load('some_config');
+
+Also you can set a custom path to folder with configs (path - it's a relative path):
+
+    \DrMVC\Core\Config::load('some_config', 'path');
+    $config = \DrMVC\Core\Config::load('some_config', 'path');
+
+For example if your configs stored into application root: 
+
+    \DrMVC\Core\Config::load('some_config', '.');
+    $config = \DrMVC\Core\Config::load('some_config', '.');
 
 ### Config example with array
 
