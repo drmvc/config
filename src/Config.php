@@ -7,42 +7,54 @@
 class Config
 {
     /**
+     * Default path to configs folder
+     */
+    const folder = 'Configs';
+
+    /**
      * Load configuration file, show config path if needed
      *
-     * @param  string $name
-     * @param  boolean $show_path
+     * @param  string $name - Config name without (dot)php
+     * @param  string $path - Path to config folder, if not set then get from const
      * @return mixed|null
      */
-    public static function load($name, $show_path = false)
+    public static function load($name, $path = null)
     {
-        $appconfig = null;
-        if (defined('APPPATH'))
-            // Application config
-            $appconfig = APPPATH . 'Configs' . DIRECTORY_SEPARATOR . $name . '.php';
-
-        $sysconfig = null;
-        if (defined('SYSPATH'))
-            // System config
-            $sysconfig = SYSPATH . 'Configs' . DIRECTORY_SEPARATOR . $name . '.php';
+        // If path is not set, then get default path
+        if (empty($path)) $path = self::folder;
 
         switch (true) {
-            // If we found the application config
-            case file_exists($appconfig):
-                $config = include($appconfig);
-                if ($show_path) $config['path'] = $appconfig;
+            case (defined('APPPATH')):
+                // File path if APPPATH global const is defined
+                $file = APPPATH
+                    . DIRECTORY_SEPARATOR
+                    . $path
+                    . DIRECTORY_SEPARATOR
+                    . $name
+                    . '.php';
                 break;
+            default:
+                error_log("APPPATH is not defined\n");
+                // Default file path
+                $file = null;
+                break;
+        }
 
-            // If we found the system config
-            case file_exists($sysconfig):
-                $config = include($sysconfig);
-                if ($show_path) $config['path'] = $sysconfig;
+        switch (true) {
+            // If we found the config and config is not null
+            case (!empty($file) && file_exists($file)):
+                // Include the config by path
+                $config = include($file);
+                // If we need show file path
+                if (key_exists('path', $config) && true === $config['path'])
+                    $config['path'] = $file;
                 break;
 
             // If config not found
             default:
                 $config = false;
-                error_log("$appconfig not found");
-                error_log("$sysconfig not found");
+                if (empty($file)) $file = 'file';
+                error_log("$file not found\n");
                 break;
         }
 
