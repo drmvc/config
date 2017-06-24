@@ -46,7 +46,7 @@ class Config
                 // Include the config by path
                 $config = include($file);
                 // If we need show file path
-                if (key_exists('path', $config) && true === $config['path'])
+                if (@key_exists('path', $config) && true === $config['path'])
                     $config['path'] = $file;
                 break;
 
