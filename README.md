@@ -8,11 +8,15 @@
 
 Class for work with configuration files.
 
+    composer require drmvc/config
+
 ## How to use
 
 First what you need know: **application directory path** should be already defined.
 
-    define('APPPATH', __DIR__ . '/../app/');
+```php
+define('APPPATH', __DIR__ . '/../app/');
+```
 
 Your **APPPATH** should contain the **Configs** folder, into **Configs**
 folder you need put your configuration file with filename like **some_config**.php
@@ -22,60 +26,68 @@ Example of directories tree:
     app/
      |-Configs/
         |-some_config.php
+        |-array_config.php
 
-How to load the config file from "app/Configs" folder:
+How to load the config file from "APPPATH/Configs" folder:
 
-    \DrMVC\Core\Config::load('some_config');
-    $config = \DrMVC\Core\Config::load('some_config');
+```php
+// Basic usage:
+\DrMVC\Core\Config::load('some_config');
+// Store variables from config inside variable
+$config = \DrMVC\Core\Config::load('some_config');
 
-Also you can set a custom path to folder with configs (path - it's a relative path):
+// You can set a custom path (relative regarding APPPATH) to folder with configs:
+\DrMVC\Core\Config::load('some_config', '/some/relative/path');
 
-    \DrMVC\Core\Config::load('some_config', 'path');
-    $config = \DrMVC\Core\Config::load('some_config', 'path');
+// Load configs stored inside application root: 
+\DrMVC\Core\Config::load('some_config', '.');
+```
 
-For example if your configs stored into application root: 
+### Load config file with array of parameters
 
-    \DrMVC\Core\Config::load('some_config', '.');
-    $config = \DrMVC\Core\Config::load('some_config', '.');
+For example in your config file with name **array_config**.php simple array like:
 
-### Config example with array
+```php
+<?php
+/**
+ * Config with array
+ */
+return array(
+    'SOME' => 'ITEM'
+);
+```
 
-    <?php
-    /**
-     * Config with array
-     */
-    return array(
-        'SOME' => 'ITEM'
-    );
+You can load this array into the `$config` variable by command:
 
-After you load the config into `$config` variable you can read the array for example via `foreach` function
+```php
+$config = \DrMVC\Core\Config::load('array_config');
 
-    foreach ($config as $key => $value) {
-        if ($key == 'path') continue;
-        define($key, $value);
-    }
+/* print_r($config); // should return
+ * Array
+ * (
+ *     [SOME] => ITEM
+ * )
+ * 
+ * echo $config['SOME']; // should return 'ITEM'
+```
+
+After this you can read array and define some constants, for example:
+
+```php
+foreach ($config as $key => $value) define($key, $value);
+```
 
 ### Config example with defined variables
 
-    <?php
-    /**
-     * Config with defined variable
-     */
-    define('SOME', 'ITEM');
-
-Defined variables available from any plaice of your code.
-
-## How to install
-
-### Via composer
-
-    composer require drmvc/config
-
-### Classic style
-
-* Download the latest [DrMVC Config](https://github.com/drmvc/config/releases) package
-* Extract the archive
-* Initiate the scripts, just run `composer update` from directory with sources
+```php
+<?php
+/**
+ * Config with defined constants
+ */
+define('SOME', 'ITEM');
+```
+    
+Defined constants available from any plaice of your code.
 
 ## About PHP Unit Tests
 
