@@ -53,8 +53,8 @@ class Config
             // If config not found
             default:
                 $config = false;
-                if (empty($file)) $file = 'file';
-                error_log("$file not found\n");
+                //if (empty($file)) $file = 'file';
+                //error_log("$file not found\n");
                 break;
         }
 
