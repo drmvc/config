@@ -10,22 +10,22 @@ class Config implements Interfaces\Config
      * Array with all parameters
      * @var array
      */
-    private $_config = [];
+    private static $config = [];
 
     /**
      * Config constructor.
-     * @param null $autoload
+     * @param   null $autoload - File with array or array for auto loading
      */
     public function __construct($autoload = null)
     {
         if (!empty($autoload)) {
             // Read file from filesystem
             if (is_string($autoload)) {
-                $this->load("$autoload");
+                self::load("$autoload");
             }
             // Parse parameters if array
             if (is_array($autoload)) {
-                $this->setter($autoload);
+                self::setter($autoload);
             }
         }
     }
@@ -34,45 +34,44 @@ class Config implements Interfaces\Config
      * Put keys from array of parameters into internal array
      *
      * @param   array $parameters
-     * @return  Config
+     * @return  bool
      */
-    private function setter(array $parameters): Config
+    private static function setter(array $parameters)
     {
         // Parse array and set values
         array_map(
             function ($key, $value) {
-                $this->set($key, $value);
+                self::set($key, $value);
             },
             array_keys($parameters),
             $parameters
         );
-
-        return $this;
+        return true;
     }
 
     /**
      * Load configuration file, show config path if needed
      *
-     * @param   string $filename
-     * @return  Interfaces\Config
+     * @param   string $path - Path to file with array
      */
-    public function load(string $filename): Interfaces\Config
+    public static function load($path)
     {
         try {
-            if (!file_exists($filename)) {
-                throw new ConfigException("Configuration file \"$filename\" is not found");
+            if (!file_exists($path)) {
+                throw new ConfigException("Configuration file \"$path\" is not found");
             }
-            $parameters = include "$filename";
+            if (!is_readable($path)) {
+                throw new ConfigException("Configuration file \"$path\" is not readable");
+            }
+            $parameters = include "$path";
 
             if (!is_array($parameters)) {
                 throw new ConfigException("Passed parameters is not array");
             }
-            $this->setter($parameters);
+            self::setter($parameters);
 
         } catch (ConfigException $e) {
         }
-
-        return $this;
     }
 
     /**
@@ -80,12 +79,12 @@ class Config implements Interfaces\Config
      *
      * @param   string $key
      * @param   mixed $value
-     * @return  Interfaces\Config
+     * @return  bool
      */
-    public function set(string $key, $value): Interfaces\Config
+    public static function set(string $key, $value)
     {
-        $this->_config[$key] = $value;
-        return $this;
+        self::$config[$key] = $value;
+        return true;
     }
 
     /**
@@ -94,11 +93,27 @@ class Config implements Interfaces\Config
      * @param   string|null $key
      * @return  mixed
      */
-    public function get(string $key = null)
+    public static function get(string $key = null)
     {
         return empty($key)
-            ? $this->_config
-            : $this->_config[$key];
+            ? self::$config
+            : self::$config[$key];
     }
 
+    /**
+     * @param string|null $key
+     * @return bool
+     */
+    public static function clean(string $key = null)
+    {
+        if (!empty($key)) {
+            // If key is set, then unset from array
+            unset(self::$config[$key]);
+        } else {
+            // Or cleanup array with configs
+            self::$config = [];
+        }
+
+        return true;
+    }
 }
