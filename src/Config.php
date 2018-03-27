@@ -1,64 +1,104 @@
-<?php namespace DrMVC\Core;
+<?php namespace DrMVC;
 
 /**
  * Class Config for access to application and system configs
- * @package System\Core
+ * @package DrMVC
  */
-class Config
+class Config implements Interfaces\Config
 {
     /**
-     * Default path to configs folder
+     * Array with all parameters
+     * @var array
      */
-    const folder = 'Configs';
+    private $_config = [];
+
+    /**
+     * Config constructor.
+     * @param null $autoload
+     */
+    public function __construct($autoload = null)
+    {
+        if (!empty($autoload)) {
+            // Read file from filesystem
+            if (is_string($autoload)) {
+                $this->load("$autoload");
+            }
+            // Parse parameters if array
+            if (is_array($autoload)) {
+                $this->setter($autoload);
+            }
+        }
+    }
+
+    /**
+     * Put keys from array of parameters into internal array
+     *
+     * @param   array $parameters
+     * @return  Config
+     */
+    private function setter(array $parameters): Config
+    {
+        // Parse array and set values
+        array_map(
+            function ($key, $value) {
+                $this->set($key, $value);
+            },
+            array_keys($parameters),
+            $parameters
+        );
+
+        return $this;
+    }
 
     /**
      * Load configuration file, show config path if needed
      *
-     * @param  string $name - Config name without (dot)php
-     * @param  string $path - Path to config folder, if not set then get from const
-     * @return mixed|null
+     * @param   string $filename
+     * @return  Interfaces\Config
      */
-    public static function load($name, $path = null)
+    public function load(string $filename): Interfaces\Config
     {
-        // If path is not set, then get default path
-        if (empty($path)) $path = self::folder;
+        try {
+            if (!file_exists($filename)) {
+                throw new ConfigException("Configuration file \"$filename\" is not found");
+            }
+            $parameters = include "$filename";
 
-        switch (true) {
-            case (defined('APPPATH')):
-                // File path if APPPATH global const is defined
-                $file = APPPATH
-                    . DIRECTORY_SEPARATOR
-                    . $path
-                    . DIRECTORY_SEPARATOR
-                    . $name
-                    . '.php';
-                break;
-            default:
-                error_log("APPPATH is not defined\n");
-                // Default file path
-                $file = null;
-                break;
+            if (!is_array($parameters)) {
+                throw new ConfigException("Passed parameters is not array");
+            }
+            $this->setter($parameters);
+
+        } catch (ConfigException $e) {
         }
 
-        switch (true) {
-            // If we found the config and config is not null
-            case (!empty($file) && file_exists($file)):
-                // Include the config by path
-                $config = include($file);
-                // If we need show file path
-                if (@key_exists('path', $config) && true === $config['path'])
-                    $config['path'] = $file;
-                break;
+        return $this;
+    }
 
-            // If config not found
-            default:
-                $config = false;
-                //if (empty($file)) $file = 'file';
-                //error_log("$file not found\n");
-                break;
-        }
+    /**
+     * Set some parameter of configuration
+     *
+     * @param   string $key
+     * @param   mixed $value
+     * @return  Interfaces\Config
+     */
+    public function set(string $key, $value): Interfaces\Config
+    {
+        $this->_config[$key] = $value;
+        return $this;
+    }
 
-        return $config;
+    /**
+     * Get single parameter by name, or all available parameters
+     *
+     * @param   string|null $key
+     * @return  mixed
+     */
+    public function get(string $key = null)
+    {
+        return empty($key)
+            ? $this->_config
+            : $this->_config[$key];
     }
 
 }

@@ -1,37 +1,58 @@
-<?php
-
-require_once(__DIR__ . '/../src/Config.php');
+<?php namespace DrMVC;
 
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
-    public function __construct($name = null, array $data = [], $dataName = '')
+    private $file = __DIR__ . '/array.php';
+
+    public function test__construct()
     {
-        parent::__construct($name, $data, $dataName);
-        if (!defined('APPPATH')) define('APPPATH', __DIR__ . '/');
+        $array = include "$this->file";
+        try {
+            $object = new Config();
+            $this->assertTrue(is_object($object));
+
+            $object = new Config($this->file);
+            $this->assertTrue(is_object($object));
+
+            $object = new Config($array);
+            $this->assertTrue(is_object($object));
+
+        } catch (\Exception $e) {
+            $this->assertContains('Must be initialized ', $e->getMessage());
+        }
+
     }
 
-    /**
-     * Load application config
-     */
+    public function testGet()
+    {
+        $object = new Config();
+        $object->load($this->file);
+        $config = $object->get();
+        $this->assertTrue(is_array($config));
+        $this->assertCount(4, $config);
+        $this->assertEquals($object->get('param_bool'), true);
+    }
+
     public function testLoad()
     {
-        $config = \DrMVC\Core\Config::load('array', '.');
-        foreach ($config as $key => $value) {
-            if ($key == 'path') continue;
-            define($key, $value);
-        }
-        $this->assertTrue(APPARRAY == 'OK');
+        $object = new Config();
+        $object->load($this->file);
+        $config = $object->get();
+        $this->assertTrue(is_array($config));
+        $this->assertCount(4, $config);
+        $this->assertEquals($object->get('param_text'), 'text');
     }
 
-    /**
-     * If file not found
-     */
-    public function testLoadDefault()
+    public function testSet()
     {
-        $config = \DrMVC\Core\Config::load('not_found');
-        $this->assertFalse($config);
+        $object = new Config();
+        $object->set('param_int', 111);
+        $config = $object->get();
+        $this->assertTrue(is_array($config));
+        $this->assertCount(1, $config);
+        $this->assertEquals($object->get('param_int'), 111);
     }
 
 }
