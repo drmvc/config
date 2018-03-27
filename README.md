@@ -1,4 +1,4 @@
-# DrMVC Config loader
+# DrMVC\Config
 
 [![Latest Stable Version](https://poser.pugx.org/drmvc/config/v/stable)](https://packagist.org/packages/drmvc/config)
 [![Build Status](https://travis-ci.org/drmvc/config.svg?branch=master)](https://travis-ci.org/drmvc/config)
@@ -6,93 +6,32 @@
 [![License](https://poser.pugx.org/drmvc/config/license)](https://packagist.org/packages/drmvc/config)
 [![PHP 7 ready](https://php7ready.timesplinter.ch/drmvc/config/master/badge.svg)](https://travis-ci.org/drmvc/config)
 
-Class for work with configuration files.
+Library for manipulation with project configurations.
 
     composer require drmvc/config
 
 ## How to use
 
-First what you need know: **application directory path** should be already defined.
-
-```php
-define('APPPATH', __DIR__ . '/../app/');
-```
-
-Your **APPPATH** should contain the **Configs** folder, into **Configs**
-folder you need put your configuration file with filename like **some_config**.php
-
-Example of directories tree:
-
-    app/
-     |-Configs/
-        |-some_config.php
-        |-array_config.php
-
-How to load the config file from "APPPATH/Configs" folder:
-
-```php
-// Basic usage:
-\DrMVC\Core\Config::load('some_config');
-// Store variables from config inside variable
-$config = \DrMVC\Core\Config::load('some_config');
-
-// You can set a custom path (relative regarding APPPATH) to folder with configs:
-\DrMVC\Core\Config::load('some_config', '/some/relative/path');
-
-// Load configs stored inside application root: 
-\DrMVC\Core\Config::load('some_config', '.');
-```
-
-### Load config file with array of parameters
-
-For example in your config file with name **array_config**.php simple array like:
-
 ```php
 <?php
-/**
- * Config with array
- */
-return array(
-    'SOME' => 'ITEM'
-);
+require_once __DIR__ . '/../vendor/autoload.php';
+use \DrMVC\Config;
+
+// Load file from filesystem
+Config::load(__DIR__ . '/array.php');
+
+Config::set('param_new', 'value');  // Add new text parameter
+Config::set('param_arr', [1,2,3]);  // Add new array parameter
+
+$config = Config::get();            // Get all available parameters
+$param = Config::get('param_new');  // Get single parameter
+$arr = Config::get('param_arr');    // Get single parameter with array
 ```
 
-You can load this array into the `$config` variable by command:
-
-```php
-$config = \DrMVC\Core\Config::load('array_config');
-
-/* print_r($config); // should return
- * Array
- * (
- *     [SOME] => ITEM
- * )
- * 
- * echo $config['SOME']; // should return 'ITEM'
-```
-
-After this you can read array and define some constants, for example:
-
-```php
-foreach ($config as $key => $value) define($key, $value);
-```
-
-### Config example with defined variables
-
-```php
-<?php
-/**
- * Config with defined constants
- */
-define('SOME', 'ITEM');
-```
-    
-Defined constants available from any plaice of your code.
+More examples you can find [here](extra).
 
 ## About PHP Unit Tests
 
-You can run tests by hands from source directory via `vendor/bin/phpunit` command. 
-
-## Developers
-
-* [Paul Rock](https://github.com/EvilFreelancer)
+For first need to install all dev dependencies via `composer update`,
+then you can run tests by hands from source directory via
+`./vendor/bin/phpunit` command.

@@ -5,6 +5,8 @@ use \DrMVC\ConfigObject;
 $configFile = __DIR__ . '/../tests/array.php';
 
 $obj = new ConfigObject();
+
+// Load file from filesystem
 $obj->load($configFile);
 
 // Get all available parameters

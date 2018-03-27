@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use \DrMVC\Config;
 $configFile = __DIR__ . '/../tests/array.php';
 
+// Load file from filesystem
 Config::load($configFile);
 
 // Get all available parameters
