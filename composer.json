@@ -1,7 +1,7 @@
 {
   "name": "drmvc/config",
   "type": "library",
-  "description": "DrMVC configuration loader",
+  "description": "Library for manipulation with project configurations",
   "homepage": "https://drmvc.com/",
   "license": "MIT",
   "keywords": [
