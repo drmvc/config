@@ -1,19 +1,20 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use \DrMVC\Config;
+use \DrMVC\ConfigObject;
 $configFile = __DIR__ . '/../tests/array.php';
 
-Config::load($configFile);
+$obj = new ConfigObject();
+$obj->load($configFile);
 
 // Get all available parameters
-$config = Config::get();
+$config = $obj->get();
 print_r($config);
 
 // Get single parameter
-$param = Config::get('param_int');
+$param = $obj->get('param_int');
 echo "$param\n";
 
 // Get single parameter with array inside
-$array = Config::get('param_array');
+$array = $obj->get('param_array');
 print_r($array);
