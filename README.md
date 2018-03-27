@@ -17,7 +17,7 @@ Library for manipulation with project configurations.
 require_once __DIR__ . '/../vendor/autoload.php';
 use \DrMVC\Config;
 
-// Load file from filesystem
+// Load file with array inside from filesystem
 Config::load(__DIR__ . '/array.php');
 
 Config::set('param_new', 'value');  // Add new text parameter
