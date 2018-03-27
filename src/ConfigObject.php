@@ -3,6 +3,15 @@
 class ConfigObject implements Interfaces\ConfigObject
 {
     /**
+     * Config constructor.
+     * @param   null $autoload - File with array or array for auto loading
+     */
+    public function __construct($autoload = null)
+    {
+        new Config($autoload);
+    }
+
+    /**
      * Load configuration file, show config path if needed
      *
      * @param   string $filename
@@ -48,5 +57,13 @@ class ConfigObject implements Interfaces\ConfigObject
     {
         Config::clean($key);
         return $this;
+    }
+
+    /**
+     * Cleanup static class
+     */
+    public function __destruct()
+    {
+        $this->clean();
     }
 }

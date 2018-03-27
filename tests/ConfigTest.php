@@ -1,6 +1,7 @@
-<?php namespace DrMVC;
+<?php namespace DrMVC\Tests;
 
 use PHPUnit\Framework\TestCase;
+use DrMVC\Config;
 
 class ConfigTest extends TestCase
 {
