@@ -1,23 +1,23 @@
 <?php namespace DrMVC\Interfaces;
 
-interface ConfigSingleton
+interface ConfigObject
 {
     /**
      * Load configuration file, show config path if needed
      *
      * @param   string $filename
-     * @return  ConfigSingleton
+     * @return  ConfigObject
      */
-    public function load(string $filename): ConfigSingleton;
+    public function load(string $filename): ConfigObject;
 
     /**
      * Set some parameter of configuration
      *
      * @param   string $key
      * @param   mixed $value
-     * @return  ConfigSingleton
+     * @return  ConfigObject
      */
-    public function set(string $key, $value): ConfigSingleton;
+    public function set(string $key, $value): ConfigObject;
 
     /**
      * Get single parameter by name, or all available parameters
@@ -31,7 +31,7 @@ interface ConfigSingleton
      * Remove single value or clean config
      *
      * @param   string|null $key
-     * @return  ConfigSingleton
+     * @return  ConfigObject
      */
-    public function clean(string $key = null): ConfigSingleton;
+    public function clean(string $key = null): ConfigObject;
 }

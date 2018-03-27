@@ -1,14 +1,14 @@
 <?php namespace DrMVC;
 
-class ConfigSingleton implements Interfaces\ConfigSingleton
+class ConfigObject implements Interfaces\ConfigObject
 {
     /**
      * Load configuration file, show config path if needed
      *
      * @param   string $filename
-     * @return  Interfaces\ConfigSingleton
+     * @return  Interfaces\ConfigObject
      */
-    public function load(string $filename): Interfaces\ConfigSingleton
+    public function load(string $filename): Interfaces\ConfigObject
     {
         Config::load($filename);
         return $this;
@@ -19,9 +19,9 @@ class ConfigSingleton implements Interfaces\ConfigSingleton
      *
      * @param   string $key
      * @param   mixed $value
-     * @return  Interfaces\ConfigSingleton
+     * @return  Interfaces\ConfigObject
      */
-    public function set(string $key, $value): Interfaces\ConfigSingleton
+    public function set(string $key, $value): Interfaces\ConfigObject
     {
         Config::set($key, $value);
         return $this;
@@ -42,9 +42,9 @@ class ConfigSingleton implements Interfaces\ConfigSingleton
      * Remove single value or clean config
      *
      * @param   string|null $key
-     * @return  Interfaces\ConfigSingleton
+     * @return  Interfaces\ConfigObject
      */
-    public function clean(string $key = null): Interfaces\ConfigSingleton
+    public function clean(string $key = null): Interfaces\ConfigObject
     {
         Config::clean($key);
         return $this;
