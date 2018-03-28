@@ -1,4 +1,6 @@
-<?php namespace DrMVC;
+<?php
+
+namespace DrMVC\Config;
 
 class ConfigException extends \Exception
 {

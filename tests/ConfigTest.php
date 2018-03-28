@@ -14,48 +14,57 @@ class ConfigTest extends TestCase
         $this->array = include $this->file;
     }
 
+    public function test__construct()
+    {
+        try {
+            $obj = new Config();
+            $this->assertTrue(is_object($obj));
+        } catch (\Exception $e) {
+            $this->assertContains('Must be initialized ', $e->getMessage());
+        }
+    }
+
     public function testSet()
     {
-        Config::clean();
-        Config::set('param_int', 111);
-        $config = Config::get();
+        $obj = new Config();
+        $obj->set('param_int', 111);
+        $config = $obj->get();
         $this->assertTrue(is_array($config));
         $this->assertCount(1, $config);
-        $this->assertEquals(Config::get('param_int'), 111);
+        $this->assertEquals($obj->get('param_int'), 111);
     }
 
     public function testGet()
     {
-        Config::clean();
-        $config = Config::get();
+        $obj = new Config();
+        $config = $obj->get();
         $this->assertTrue(is_array($config));
         $this->assertEmpty($config);
     }
 
     public function testClean()
     {
-        Config::clean();
-        $config = Config::get();
+        $obj = new Config();
+        $config = $obj->get();
         $this->assertEmpty($config);
         $this->assertTrue(is_array($config));
 
-        Config::set('param_bool', true);
-        Config::set('param_int', 321);
-        Config::clean('param_bool');
-        $config = Config::get();
+        $obj->set('param_bool', true);
+        $obj->set('param_int', 321);
+        $obj->clean('param_bool');
+        $config = $obj->get();
         $this->assertTrue(is_array($config));
         $this->assertCount(1, $config);
-        $this->assertEquals(Config::get('param_int'), 321);
+        $this->assertEquals($obj->get('param_int'), 321);
     }
 
     public function testLoad()
     {
-        Config::clean();
-        Config::load($this->file);
-        $config = Config::get();
+        $obj = new Config();
+        $obj->load($this->file);
+        $config = $obj->get();
         $this->assertTrue(is_array($config));
         $this->assertCount(4, $config);
-        $this->assertEquals(Config::get('param_text'), 'text');
+        $this->assertEquals($obj->get('param_text'), 'text');
     }
-
 }

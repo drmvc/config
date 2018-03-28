@@ -1,10 +1,10 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use \DrMVC\ConfigObject;
+use \DrMVC\Config;
 $configFile = __DIR__ . '/../tests/array.php';
 
-$obj = new ConfigObject();
+$obj = new Config();
 
 // Load file from filesystem
 $obj->load($configFile);

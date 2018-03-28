@@ -5,6 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/drmvc/config/downloads)](https://packagist.org/packages/drmvc/config)
 [![License](https://poser.pugx.org/drmvc/config/license)](https://packagist.org/packages/drmvc/config)
 [![PHP 7 ready](https://php7ready.timesplinter.ch/drmvc/config/master/badge.svg)](https://travis-ci.org/drmvc/config)
+[![Scrutinizer CQ](https://scrutinizer-ci.com/g/drmvc/config/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/drmvc/config/)
 
 Library for manipulation with project configurations.
 
@@ -15,23 +16,28 @@ Library for manipulation with project configurations.
 ```php
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
-use \DrMVC\Config;
+
+// Config object
+$config = new \DrMVC\Config();
 
 // Load file with array inside from filesystem
-Config::load(__DIR__ . '/array.php');
+$config->load(__DIR__ . '/array.php');
 
-Config::set('param_new', 'value');  // Add new text parameter
-Config::set('param_arr', [1,2,3]);  // Add new array parameter
+$config->set('param_new', 'value'); // Add new text parameter
+$config->set('param_arr', [1,2,3]); // Add new array parameter
 
-$config = Config::get();            // Get all available parameters
-$param = Config::get('param_new');  // Get single parameter
-$arr = Config::get('param_arr');    // Get single parameter with array
+$all = $config->get();              // Get all available parameters
+$one = $config->get('param_new');   // Get single parameter
+$arr = $config->get('param_arr');   // Get single parameter with array
 ```
 
 More examples you can find [here](extra).
 
 ## About PHP Unit Tests
 
-For first need to install all dev dependencies via `composer update`,
-then you can run tests by hands from source directory via
-`./vendor/bin/phpunit` command.
+First need to install all dev dependencies via `composer update`, then
+you can run tests by hands from source directory via `./vendor/bin/phpunit` command.
+
+# Links
+
+* [DrMVC Framework](https://drmvc.com)

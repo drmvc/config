@@ -1,23 +1,25 @@
-<?php namespace DrMVC\Interfaces;
+<?php
 
-interface ConfigObject
+namespace DrMVC\Config;
+
+interface ConfigInterface
 {
     /**
      * Load configuration file, show config path if needed
      *
-     * @param   string $filename
-     * @return  ConfigObject
+     * @param   string $path - Path to file with array
+     * @return  ConfigInterface
      */
-    public function load(string $filename): ConfigObject;
+    public function load(string $path): ConfigInterface;
 
     /**
      * Set some parameter of configuration
      *
      * @param   string $key
      * @param   mixed $value
-     * @return  ConfigObject
+     * @return  ConfigInterface
      */
-    public function set(string $key, $value): ConfigObject;
+    public function set(string $key, $value): ConfigInterface;
 
     /**
      * Get single parameter by name, or all available parameters
@@ -31,7 +33,7 @@ interface ConfigObject
      * Remove single value or clean config
      *
      * @param   string|null $key
-     * @return  ConfigObject
+     * @return  ConfigInterface
      */
-    public function clean(string $key = null): ConfigObject;
+    public function clean(string $key = null): ConfigInterface;
 }
