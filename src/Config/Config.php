@@ -63,7 +63,7 @@ class Config implements ConfigInterface
     {
         // Parse array and set values
         array_map(
-            function ($key, $value) {
+            function($key, $value) {
                 $this->set($key, $value);
             },
             array_keys($parameters),
