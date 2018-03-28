@@ -107,7 +107,12 @@ class Config implements ConfigInterface
      */
     public function clean(string $key = null): ConfigInterface
     {
-        $this->_config = [];
+        if (!empty($key)) {
+            unset($this->_config[$key]);
+        } else {
+            $this->_config = [];
+        }
+
         return $this;
     }
 }
