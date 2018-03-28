@@ -12,18 +12,18 @@ class Config implements ConfigInterface
 
     /**
      * Config constructor.
-     * @param   null $autoload - File with array or array for auto loading
+     * @param   bool $data - File with array or array for auto loading
      */
-    public function __construct($autoload = null)
+    public function __construct($data = false)
     {
-        if (!empty($autoload)) {
-            // Read file from filesystem
-            if (is_string($autoload)) {
-                $this->load("$autoload");
+        if (false !== $data) {
+            // If data is string, then need load file
+            if (is_string($data)) {
+                $this->load("$data");
             }
-            // Parse parameters if array
-            if (is_array($autoload)) {
-                $this->setter($autoload);
+            // If data is array, the need to set
+            if (is_array($data)) {
+                $this->setter($data);
             }
         }
     }
