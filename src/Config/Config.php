@@ -2,6 +2,10 @@
 
 namespace DrMVC\Config;
 
+/**
+ * Class Config
+ * @package DrMVC\Config
+ */
 class Config implements ConfigInterface
 {
     /**
@@ -12,43 +16,45 @@ class Config implements ConfigInterface
 
     /**
      * Config constructor.
-     * @param null|string|array $data - File with array or array for auto loading
+     * @param null|string|array $data File with array or array for auto loading
      */
     public function __construct($data = null)
     {
-        // If data is string, then need load file
-        if (is_string($data)) {
-            $this->load("$data");
-        }
-        // If data is array, the need to set
-        if (is_array($data)) {
-            $this->setter($data);
+        switch (true) {
+            // If data is string, then need load file
+            case (\is_string($data)):
+                $this->load($data);
+                break;
+            // If data is array, the need to set
+            case (\is_array($data)):
+                $this->setter($data);
+                break;
         }
     }
 
     /**
      * Load configuration file, show config path if needed
      *
-     * @param   string $path - Path to file with array
+     * @param   string $path path to file with array
      * @return  ConfigInterface
      */
     public function load(string $path): ConfigInterface
     {
         try {
             if (!file_exists($path)) {
-                throw new ConfigException("Configuration file \"$path\" is not found");
+                throw new Exception("Configuration file \"$path\" is not found");
             }
             if (!is_readable($path)) {
-                throw new ConfigException("Configuration file \"$path\" is not readable");
+                throw new Exception("Configuration file \"$path\" is not readable");
             }
-            $parameters = include "$path";
+            $parameters = include $path;
 
-            if (!is_array($parameters)) {
-                throw new ConfigException("Passed parameters is not array");
+            if (!\is_array($parameters)) {
+                throw new Exception('Passed parameters is not array');
             }
             $this->setter($parameters);
 
-        } catch (ConfigException $e) {
+        } catch (Exception $e) {
             // Error message implemented in exception
         }
         return $this;
@@ -88,11 +94,11 @@ class Config implements ConfigInterface
      * Get single parameter by name, or all available parameters
      *
      * @param   string|null $key
-     * @return  mixed
+     * @return  string|array
      */
     public function get(string $key = null)
     {
-        return empty($key)
+        return (null === $key)
             ? $this->_config
             : $this->_config[$key];
     }
@@ -105,7 +111,7 @@ class Config implements ConfigInterface
      */
     public function clean(string $key = null): ConfigInterface
     {
-        if (!empty($key)) {
+        if (null !== $key) {
             unset($this->_config[$key]);
         } else {
             $this->_config = [];

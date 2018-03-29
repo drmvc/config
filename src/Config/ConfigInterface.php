@@ -2,12 +2,16 @@
 
 namespace DrMVC\Config;
 
+/**
+ * Interface ConfigInterface
+ * @package DrMVC\Config
+ */
 interface ConfigInterface
 {
     /**
      * Load configuration file, show config path if needed
      *
-     * @param   string $path - Path to file with array
+     * @param   string $path path to file with array
      * @return  ConfigInterface
      */
     public function load(string $path): ConfigInterface;
@@ -25,7 +29,7 @@ interface ConfigInterface
      * Get single parameter by name, or all available parameters
      *
      * @param   string|null $key
-     * @return  mixed
+     * @return  string|array
      */
     public function get(string $key = null);
 
