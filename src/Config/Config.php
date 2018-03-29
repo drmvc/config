@@ -86,7 +86,10 @@ class Config implements ConfigInterface
      */
     public function set(string $key, $value): ConfigInterface
     {
-        $this->_config[$key] = $value;
+        $this->_config[$key] = \is_array($value)
+            ? new Config($value)
+            : $value;
+
         return $this;
     }
 
