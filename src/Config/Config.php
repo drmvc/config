@@ -41,19 +41,14 @@ class Config implements ConfigInterface
     public function load(string $path): ConfigInterface
     {
         try {
-            if (!file_exists($path)) {
-                throw new Exception("Configuration file \"$path\" is not found");
-            }
-            if (!is_readable($path)) {
-                throw new Exception("Configuration file \"$path\" is not readable");
+            if (!file_exists($path) || !is_readable($path)) {
+                throw new Exception('Configuration file "' . $path . '" is not found or is not readable');
             }
             $parameters = include $path;
-
             if (!\is_array($parameters)) {
                 throw new Exception('Passed parameters is not array');
             }
             $this->setter($parameters);
-
         } catch (Exception $e) {
             // Error message implemented in exception
         }
@@ -97,7 +92,7 @@ class Config implements ConfigInterface
      * Get single parameter by name, or all available parameters
      *
      * @param   string|null $key
-     * @return  string|array
+     * @return  mixed
      */
     public function get(string $key = null)
     {

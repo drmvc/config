@@ -29,7 +29,7 @@ interface ConfigInterface
      * Get single parameter by name, or all available parameters
      *
      * @param   string|null $key
-     * @return  string|array
+     * @return  mixed
      */
     public function get(string $key = null);
 
