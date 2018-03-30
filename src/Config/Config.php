@@ -129,7 +129,7 @@ class Config implements ConfigInterface
     {
         return (null === $key)
             ? $this->_config
-            : $this->_config[$key];
+            : (isset($this->_config[$key]) ?? null);
     }
 
     /**
