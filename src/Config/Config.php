@@ -120,16 +120,18 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get single parameter by name, or all available parameters
+     * Get single parameter by name or null, or all available parameters
      *
      * @param   string|null $key
      * @return  mixed
      */
     public function get(string $key = null)
     {
-        return (null === $key)
-            ? $this->_config
-            : (isset($this->_config[$key]) ?? null);
+        $result = (null !== $key)
+            ? $this->_config[$key] ?? null
+            : $this->_config;
+
+        return $result;
     }
 
     /**

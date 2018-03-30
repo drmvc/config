@@ -5,7 +5,7 @@ use DrMVC\Config;
 
 class ConfigTest extends TestCase
 {
-    private $file = __DIR__ . '/array.php';
+    private $file = __DIR__ . '/../extra/array.php';
     private $array;
 
     public function __construct(string $name = null, array $data = [], string $dataName = '')
@@ -63,7 +63,7 @@ class ConfigTest extends TestCase
         $obj = new Config();
         $obj->load($this->file);
         $config = $obj->get();
-        $this->assertTrue(is_array($config));
+        $this->assertInternalType('array', $config);
         $this->assertCount(4, $config);
         $this->assertEquals($obj->get('param_text'), 'text');
     }

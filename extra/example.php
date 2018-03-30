@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use \DrMVC\Config;
-$configFile = __DIR__ . '/../tests/array.php';
+$configFile = __DIR__ . '/array.php';
 
 $obj = new Config();
 
