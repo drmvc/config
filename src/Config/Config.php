@@ -33,22 +33,53 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Load parameters from filesystem
+     *
+     * @param   string $path
+     * @return  mixed
+     * @throws  Exception
+     */
+    private function loadFile(string $path)
+    {
+        if (!file_exists($path)) {
+            throw new Exception('Configuration file "' . $path . '" is not found');
+        }
+
+        if (!is_readable($path)) {
+            throw new Exception('Configuration file "' . $path . '" is not readable');
+        }
+
+        // Include file
+        $content = include $path;
+
+        if (!\is_array($content)) {
+            throw new Exception("Passed file \"$path\" is not array");
+        }
+
+        return $content;
+    }
+
+    /**
      * Load configuration file, show config path if needed
      *
      * @param   string $path path to file with array
+     * @param   string $key in which subkey this file must be saved
      * @return  ConfigInterface
      */
-    public function load(string $path): ConfigInterface
+    public function load(string $path, string $key = null): ConfigInterface
     {
         try {
-            if (!file_exists($path) || !is_readable($path)) {
-                throw new Exception('Configuration file "' . $path . '" is not found or is not readable');
+            // Read parameters from file
+            $parameters = $this->loadFile($path);
+
+            // If key is provided then need put parameters into subarray
+            if (null !== $key) {
+                $parameters = [$key => $parameters];
             }
-            $parameters = include $path;
-            if (!\is_array($parameters)) {
-                throw new Exception('Passed parameters is not array');
-            }
+
+            // Keep configuration
             $this->setter($parameters);
+
         } catch (Exception $e) {
             // Error message implemented in exception
         }

@@ -12,9 +12,10 @@ interface ConfigInterface
      * Load configuration file, show config path if needed
      *
      * @param   string $path path to file with array
+     * @param   string $key in which subkey this file must be saved
      * @return  ConfigInterface
      */
-    public function load(string $path): ConfigInterface;
+    public function load(string $path, string $key = null): ConfigInterface;
 
     /**
      * Set some parameter of configuration
