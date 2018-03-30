@@ -24,6 +24,9 @@ $config = new \DrMVC\Config();
 // Load file with array inside from filesystem
 $config->load(__DIR__ . '/array.php');
 
+// Load file from filesystem and put into array with specific key
+$config->load(__DIR__ . '/array.php', 'subarray');
+
 $config->set('param_new', 'value'); // Add new text parameter
 $config->set('param_arr', [1,2,3]); // Add new array parameter
 
