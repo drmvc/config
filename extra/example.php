@@ -9,6 +9,9 @@ $obj = new Config();
 // Load file from filesystem
 $obj->load($configFile);
 
+// Load file from filesystem and put into array with specific key
+$obj->load($configFile, 'subarray');
+
 // Get all available parameters
 $config = $obj->get();
 print_r($config);
