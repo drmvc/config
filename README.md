@@ -3,6 +3,7 @@
 [![Total Downloads](https://poser.pugx.org/drmvc/config/downloads)](https://packagist.org/packages/drmvc/config)
 [![License](https://poser.pugx.org/drmvc/config/license)](https://packagist.org/packages/drmvc/config)
 [![PHP 7 ready](https://php7ready.timesplinter.ch/drmvc/config/master/badge.svg)](https://travis-ci.org/drmvc/config)
+[![Code Climate](https://codeclimate.com/github/drmvc/config/badges/gpa.svg)](https://codeclimate.com/github/drmvc/config)
 [![Scrutinizer CQ](https://scrutinizer-ci.com/g/drmvc/config/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/drmvc/config/)
 
 # DrMVC\Config
