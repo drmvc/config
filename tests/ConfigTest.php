@@ -1,4 +1,6 @@
-<?php namespace DrMVC\Tests;
+<?php
+
+namespace DrMVC\Config\Tests;
 
 use PHPUnit\Framework\TestCase;
 use DrMVC\Config;
