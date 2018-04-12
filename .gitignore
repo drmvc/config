@@ -1,7 +1,3 @@
-nbproject
-.kdev4
-.idea
-.kate-swp
-~*
-/vendor/
+/.idea/
 /composer.lock
+/vendor/
